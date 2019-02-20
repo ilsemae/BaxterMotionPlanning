@@ -1,0 +1,18 @@
+<launch>
+
+	<arg name="hand" /> <!-- left, right, or both -->
+	<param name="hand_mode" type="string" value="$(arg hand)" />
+
+	<param name="hand_switch" type="int" value="1" /> <!-- used for "both" mode, 1 is right and -1 is left -->
+sourc
+	<param name="plane_origin" value="" />
+	<param name="plane_x_vector" value="" />
+	<param name="plane_y_vector" value="" />
+
+	<param name="plane_eq_params" value="" />
+
+	<node name="robot_interface_drawer" pkg="group7_proj2" type="robot_interface_drawer.py" output="screen" />
+
+	<node name="controller_drawer" pkg="group7_proj2" type="controller_drawer.py" output="screen"/>
+
+</launch>

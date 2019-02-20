@@ -1,0 +1,9 @@
+<launch>
+
+	<node name="show_collisions" pkg="group7_proj2" type="show_collisions.py" output="screen" />
+
+	<include file="$(find collision_checker)/launch/collision_server.launch" />
+
+	<!--<include file="$(find collision_checker)/collision_server.launch"><arg name="visualize" value="true"/></include>-->
+
+</launch>

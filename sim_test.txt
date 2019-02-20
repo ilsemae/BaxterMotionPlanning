@@ -1,0 +1,84 @@
+import rospy
+import baxter_interface
+rospy.init_node('Hello_Baxter')
+
+
+
+[ERROR] [WallTime: 1446826858.888958] [2517.343000] Error processing request: <class 'struct.error'>: 'pack expected 7 items for packing (got 2)' when writing 'left'
+['Traceback (most recent call last):\n', '  File "/opt/ros/indigo/lib/python2.7/dist-packages/rospy/impl/tcpros_service.py", 
+line 623, in _handle_request\n    response = convert_return_to_response(self.handler(request), self.response_class)\n', '  File "/home/cs4752/ros_ws/src/group7_proj2/src/robot_interface.py", 
+line 694, in handle_move_robot\n    isPossible = biRRT()\n', '  File "/home/cs4752/ros_ws/src/group7_proj2/src/robot_interface.py",
+ line 612, in biRRT\n    (tree_nodes,tree_node_parents) = get_biRRT()\n', '  File "/home/cs4752/ros_ws/src/group7_proj2/src/robot_interface.py",
+ line 555, in get_biRRT\n    res = s_cc(String(hand),sample)\n', '  File "/opt/ros/indigo/lib/python2.7/dist-packages/rospy/impl/tcpros_service.py", 
+ line 435, in __call__\n    return self.call(*args, **kwds)\n', '  File "/opt/ros/indigo/lib/python2.7/dist-packages/rospy/impl/tcpros_service.py", 
+ line 512, in call\n    transport.send_message(request, self.seq)\n', '  File "/opt/ros/indigo/lib/python2.7/dist-packages/rospy/impl/tcpros_base.py", 
+ line 633, in send_message\n    serialize_message(self.write_buff, seq, msg)\n', '  File "/opt/ros/indigo/lib/python2.7/dist-packages/rospy/msg.py", 
+ line 152, in serialize_message\n    msg.serialize(b)\n', '  File "/home/cs4752/ros_ws/devel/lib/python2.7/dist-packages/collision_checker/srv/_CheckCollision.py", 
+ line  71, in serialize\n    except struct.error as se: self._check_types(struct.error("%s: \'%s\' when writing \'%s\'" % (type(se), str(se), str(_x))))\n', '  File "/opt/ros/indigo/lib/python2.7/dist-packages/genpy/message.py", 
+ line 318, in _check_types\n    raise SerializationError(str(exc))\n', "SerializationError: <class 'struct.error'>: 'pack expected 7 items for packing (got 2)' when writing 'left'\n"]
+
+{'left_w0': 1, 
+'left_w1': -1.2, 
+'left_w2': 1.8721031098678509e-06, 
+'left_e0': 0.2, 
+'left_e1': 2, 
+'left_s0': -1.5, 
+'left_s1': -0.3}
+
+{'left_w0': 1.391426179142015, 'left_w1': -0.09186949922709964, 'left_w2': 1.4079987522563897e-06, 'left_e0': -0.4969289446282783, 'left_e1': 1.9922154716581915, 'left_s0': -1.49080903908758, 'left_s1': -0.5002174510032784}
+
+hand = "left"
+limb=baxter_interface.Limb(hand)
+limb_joints=limb.joint_angles()
+limb_joints[hand+'_s0']=-1.5
+limb_joints[hand+'_s1']=-3.00801034e-01
+limb_joints[hand+'_e0']= 1.99288802e-01 OR 0
+limb_joints[hand+'_e1']= 1.99543490e+00
+limb_joints[hand+'_w0']=9.96434529e-01
+limb_joints[hand+'_w1']=-1.19145086e+00
+limb_joints[hand+'_w2']=1.21515444e-06
+limb.move_to_joint_positions(limb_joints)
+limb.move_to_neutral()
+
+
+numpy.array([[ -1.49463032e+00,  -3.01571900e-01,   1.98618766e-01,   1.99098978e+00, 9.92976861e-01,  -1.18313000e+00,   2.02002784e-06],
+ [ -1.43320863e+00,  -4.40084523e-01,  -1.72862996e-02,   1.75119241e+00, 3.82889602e-01,  -8.64179500e-01,   8.43839484e-03],
+ [ -1.33417915e+00,  -6.63406811e-01,  -3.65387522e-01,   1.36456990e+00, -6.00746982e-01,  -3.49939328e-01,   2.20402637e-02],
+ [ -1.16430904e+00,  -6.89849886e-01,  -3.85072726e-01,   1.22614755e+00, -7.05707265e-01,  -7.53598769e-02 ,  2.19233107e-02],
+ [ -8.74431817e-01,  -6.54651864e-01,  -2.88613817e-01,   1.10812558e+00, -5.28442005e-01,   2.56371606e-01,   1.64424812e-02],
+ [ -5.84554594e-01,  -6.19453842e-01,  -1.92154908e-01,   9.90103611e-01, -3.51176745e-01,   5.88103090e-01,   1.09616517e-02],
+ [ -4.80014811e-03,  -5.49057797e-01,   7.62909172e-04,   7.54059675e-01, 3.35377462e-03,   1.25156606e+00 , -7.39038608e-09]])
+ 
+limb_joints[hand+'_s0']=path[i,0]
+limb_joints[hand+'_s1']=path[i,1]
+limb_joints[hand+'_e0']=path[i,2]
+limb_joints[hand+'_e1']=path[i,3]
+limb_joints[hand+'_w0']=path[i,4]
+limb_joints[hand+'_w1']=path[i,5]
+limb_joints[hand+'_w2']=path[i,6]
+limb.move_to_joint_positions(limb_joints)
+
+for Smoother:
+	path = [numpy.array([ -6.66935718e-03, -5.49595974e-01, -2.54545453e-03, 7.57507486e-01, 8.58171165e-03 ,1.25158853e+00, 3.19225926e-06]),
+			numpy.array([ -1.40840936e-01, -5.45057396e-01, -4.68864112e-02, 8.69136765e-01, 1.33074785e-01, 1.13095832e+00,  7.45479189e-06]),
+			numpy.array([ -2.75012516e-01, -5.40518819e-01, -9.12273679e-02, 9.80766044e-01, 2.57567859e-01, 1.01032812e+00,  1.17173245e-05]),
+			numpy.array([ -4.09184095e-01, -5.35980242e-01, -1.35568325e-01, 1.09239532e+00, 3.82060933e-01, 8.89697910e-01,  1.59798572e-05]),
+			numpy.array([ -5.43355674e-01, -5.31441665e-01, -1.79909281e-01, 1.20402460e+00, 5.06554007e-01, 7.69067703e-01,  2.02423898e-05]),
+			numpy.array([ -6.77527254e-01, -5.26903087e-01, -2.24250238e-01, 1.31565388e+00, 6.31047081e-01, 6.48437496e-01,  2.45049224e-05]),
+			numpy.array([ -8.11698833e-01, -5.22364510e-01, -2.68591195e-01, 1.42728316e+00, 7.55540155e-01, 5.27807289e-01,  2.87674551e-05]),
+			numpy.array([ -7.94775332e-01, -5.09255806e-01, -2.31456396e-01, 1.45909285e+00, 8.04464021e-01, 5.09234749e-01, -1.01842427e-01]),
+			numpy.array([ -7.61291014e-01, -4.83319328e-01, -1.57982628e-01, 1.52203052e+00, 9.01263275e-01, 4.72487695e-01, -3.03401632e-01]),
+			numpy.array([ -7.27806697e-01, -4.57382851e-01, -8.45088597e-02, 1.58496819e+00, 9.98062529e-01, 4.35740640e-01, -5.04960836e-01]),
+			numpy.array([ -7.37416911e-01, -4.68347238e-01, -8.97932206e-02, 1.58187261e+00, 1.01534155e+00, 4.28963419e-01, -5.04485337e-01]),
+			numpy.array([ -8.35928365e-01, -5.80739920e-01, -1.43961637e-01, 1.55014071e+00, 1.19246363e+00, 3.59492138e-01, -4.99611143e-01]),
+			numpy.array([ -9.34439820e-01, -6.93132603e-01, -1.98130053e-01, 1.51840881e+00, 1.36958570e+00, 2.90020857e-01, -4.94736948e-01]),
+			numpy.array([ -1.03295128e+00, -8.05525285e-01, -2.52298470e-01, 1.48667691e+00, 1.54670778e+00, 2.20549576e-01, -4.89862754e-01]),
+			numpy.array([ -1.13146273e+00, -9.17917967e-01, -3.06466886e-01, 1.45494502e+00, 1.72382986e+00, 1.51078294e-01, -4.84988559e-01]),
+			numpy.array([ -1.14921293e+00, -7.29322568e-01, -3.12953223e-01, 1.61440894e+00, 1.50890278e+00, 1.42959712e-01, -3.68043946e-01]),
+			numpy.array([ -1.26631386e+00, -6.52569756e-01, -3.74045834e-01, 1.74306303e+00, 1.47082486e+00, 6.48097384e-02, -2.45345747e-01]),
+			numpy.array([ -1.38341479e+00, -5.75816944e-01, -4.35138444e-01, 1.87171713e+00, 1.43274695e+00,-1.33402351e-02, -1.22647548e-01]),
+			numpy.array([ -1.50051572e+00, -4.99064131e-01, -4.96231055e-01, 2.00037123e+00, 1.39466903e+00,-9.14902085e-02,  5.06506620e-05])]
+
+kin=bk(hand)
+print("joint angle vel. mag. when end effector moves 1 cm = "+str(numpy.linalg.norm(numpy.dot(kin.jacobian_pseudo_inverse(),([0.01,0,0,0,0,0])))))
+	
